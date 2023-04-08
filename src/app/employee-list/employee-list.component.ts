@@ -18,9 +18,12 @@ const get_employees = gql`
 const delete_employee = gql`
   mutation deleteEmployeeByEid($deleteEmployeeId: String!) {
     deleteEmployeeByEid(id: $deleteEmployeeId) {
-      message
-      status
-      error
+      id
+      first_name
+      last_name
+      email
+      gender
+      salary
     }
   }
   `;
@@ -55,7 +58,7 @@ export class EmployeeListComponent implements OnInit {
       .mutate<any>({
         mutation: delete_employee,
         variables: {
-          "deleteEmployeeByEid": id,
+          "deleteEmployeeId": id,
         },
       })
       .pipe(

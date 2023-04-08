@@ -4,21 +4,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Apollo, gql } from 'apollo-angular';
 import { catchError, of } from 'rxjs';
 
-const signup = gql `
+const signup = gql`
   mutation signUp($username: String!, $email: String!, $password: String!) {
     signUp(username: $username, email: $email, password: $password) {
-      error
-      message
-      status
-      user {
-        id
-        username
-        email
-        password
-      }
+      id
+      username
+      email
+      password
+      
     }
   }
-`; 
+`;
 
 @Component({
   selector: 'app-signup',
@@ -32,7 +28,7 @@ export class SignupComponent implements OnInit {
     private fb: FormBuilder,
     private apollo: Apollo,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -57,17 +53,15 @@ export class SignupComponent implements OnInit {
           this.error = error.message;
           if (error.networkError.status === 400)
             this.error = 'Bad Request has been made';
-          return of({ error: error});
+          return of({ error: error });
         })
       )
       .subscribe({
         next: (val: any) => {
-          if (val.data.signup.status == false) {
-            alert(val.data.signup.message)
-          } else {
-            this.router.navigate(["/login"])
-          }
-        },
+
+          this.router.navigate(["/login"])
+
+        }
       })
   }
 

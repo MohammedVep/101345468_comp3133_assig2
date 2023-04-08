@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 const login = gql`
-  query Query($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      error
-      message
-      status
+  query Query($username: String!, $password: String!, $email: String!) {
+    login(username: $username, password: $password, email: $email) {
+      email
+      id
+      password
+      username
     }
   }
 `;
@@ -30,6 +31,7 @@ export class LoginComponent {
   ngOnInit(): void {
     this.form = this.fb.group({
       username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required],
       rememberMe: [true],
     });
@@ -42,6 +44,7 @@ export class LoginComponent {
         variables: {
           username: this.form.value.username,
           password: this.form.value.password,
+          email: this.form.value.email,
         },
       })
       .valueChanges.subscribe(({ data, loading }) => {
@@ -52,10 +55,11 @@ export class LoginComponent {
           button!.innerHTML =
             "<div class='d-flex justify-content-center align-items-center'><div class='spinner-border' role='status'><span class='visually-hidden'>Loading...</span></div>&nbsp; &nbsp;Please Wait...</div>";
         }
-        if (data.login.status == true) {
+        if (data.login.email) {
           const user = {
             username: this.form.value.username,
             password: this.form.value.password,
+            email: this.form.value.email,
           };
           if (this.form.value.rememberMe == true) {
             localStorage.setItem('employee-system', JSON.stringify(user));
@@ -63,8 +67,6 @@ export class LoginComponent {
             sessionStorage.setItem('employee-system', JSON.stringify(user));
           }
           this.router.navigate(['/list']);
-        } else {
-          alert(data.login.message);
         }
         button!.disabled = false;
         button!.innerHTML = 'LOGIN';

@@ -36,6 +36,19 @@
                     Please enter correct username or password.
                 </div>
             </div>
+            <div class="input-group has-validation mb-4">
+                <span class="input-group-text">
+                    <i class="bi bi-envelope-fill fs-3"></i>
+                </span>
+                <div class="form-floating">
+                    <input type="email" class="form-control" id="email" placeholder="Email" required
+                    formControlName="email" />
+                    <label for="email">Email</label>
+                </div>
+                <div class="invalid-feedback">
+                    Please enter valid & different email.
+                </div>
+            </div>
             <div class="form-check mb-4 ms-2">
                 <label class="form-check-label" htmlFor="remember">
                     Remember me

@@ -20,17 +20,14 @@ const add_employee = gql`
       gender: $gender
       salary: $salary
     ) {
-      message
-      status
-      error
-      employee {
-        id
-        first_name
-        last_name
-        email
-        gender
-        salary
-      }
+    
+      id
+      first_name
+      last_name
+      email
+      gender
+      salary
+      
     }
   }`;
 
@@ -51,9 +48,12 @@ const edit_employee = gql`
         gender: $gender
         salary: $salary
       ) {
-        error
-        message
-        status
+        email
+        first_name
+        last_name
+        salary
+        gender
+        id
       }
     }
   `;
@@ -138,23 +138,23 @@ export class AddEmployeeComponent implements OnInit {
       .mutate<any>({
         mutation: add_employee,
         variables: {
-          firstName: this.employee.first_name,
-          lastName: this.employee.last_name,
-          email: this.employee.email,
-          gender: this.employee.gender,
-          salary: this.employee.salary
+          firstName:this.form.value.first_name,
+          lastName:this.form.value.last_name,
+          email:this.form.value.email,
+          gender:this.form.value.gender,
+          salary:this.form.value.salary
         },
       })
       .pipe(
         catchError((error) => {
           this.error = error.message;
-          if (error.networkError.status === 400)
+          if (error?.networkError?.status === 400)
             this.error = 'Worst Request';
           return of({ error: error});
         })
       )
       .subscribe((data) => {
-        console.log(data);
+        window.location.href = '/list';
       });
   }
 
