@@ -33,7 +33,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
         return {
           cache: new InMemoryCache(),
           link: httpLink.create({
-            uri: 'https://101345468-comp-3133-assignment1.vercel.app/graphql',
+            uri: 'https://comp3133-assignment1.herokuapp.com/graphql',
           }),
         };
       },
