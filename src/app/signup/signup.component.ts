@@ -5,8 +5,8 @@ import { Apollo, gql } from 'apollo-angular';
 import { catchError, of } from 'rxjs';
 
 const signup = gql `
-  mutation Signup($username: String!, $email: String!, $password: String!) {
-    signup(username: $username, email: $email, password: $password) {
+  mutation signUp($username: String!, $email: String!, $password: String!) {
+    signUp(username: $username, email: $email, password: $password) {
       error
       message
       status
